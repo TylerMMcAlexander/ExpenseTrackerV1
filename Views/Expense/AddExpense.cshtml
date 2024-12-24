@@ -1,0 +1,27 @@
+﻿@model Expense
+
+<h2>@ViewBag.Action An Expense</h2>
+
+<form asp-action="AddExpense" method="post">
+    <input type="hidden" asp-for="ExpenseId" />
+    <div>
+        <label asp-for="Amount" class="form-label">Expense Amount</label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="Category" class="form-label">Category</label>
+        <input asp-for="Category" class="form-control" />
+        <span asp-validation-for="Category" class="text-danger"></span>
+    </div>
+
+    <div>
+        <label asp-for="ExpenseDate" class="form-label">Expense Date</label>
+        <input asp-for="ExpenseDate" class="form-control" type="date" />
+        <span asp-validation-for="ExpenseDate" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+    <a asp-action="Home" asp-controller="Home" class="btn btn-primary">Cancel</a>
+</form>

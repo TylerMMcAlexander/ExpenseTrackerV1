@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Expense>
+<h2>List of Expenses</h2>
+
+
+<a asp-action="AddExpense" asp-controller="Expense" class="btn btn-primary">Add Expense</a>
+<table class="table-striped">
+    <thead>
+        <tr>
+            <th>Expense Amount</th>
+            <th>Expense Category</th>
+            <th>Expense Date</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var expense in Model)
+        {
+         <tr>
+             <td>@expense.Amount.ToString("C2")</td>
+             <td>@expense.Category</td>
+                <td>@expense.ExpenseDate.ToShortDateString()</td>
+                <td>
+                    <a asp-action="EditExpense" asp-controller="Expense" asp-route-id="@expense.ExpenseId">Edit Expense</a>
+                    <a asp-action="DeleteExpense" asp-controller="Expense" asp-route-id="@expense.ExpenseId">Delete Expense</a>
+                </td>
+         </tr>
+        }
+    </tbody>
+</table>

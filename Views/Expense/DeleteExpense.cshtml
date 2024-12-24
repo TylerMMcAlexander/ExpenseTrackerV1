@@ -1,0 +1,11 @@
+﻿@model Expense
+
+<h2>Delete Expense</h2>
+
+<form asp-action="DeleteExpense" method="post">
+    <input type="hidden" asp-for="ExpenseId" />
+    <h3>@Model.Amount.ToString("C2"), @Model.Category</h3>
+    <h4>@Model.ExpenseDate.ToShortDateString()</h4>
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-action="IndexExpense" asp-controller="Expense" class="btn btn-primary">Cancel</a>
+</form>

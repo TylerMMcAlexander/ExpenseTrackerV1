@@ -15,7 +15,7 @@ namespace ExpenseTrackerv1.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("IndexExpense", "Expense");
         }
 
         public IActionResult Privacy()
