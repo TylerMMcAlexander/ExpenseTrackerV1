@@ -17,8 +17,9 @@ namespace ExpenseTrackerv1.Controllers
         }
         public IActionResult IndexExpense()
         {
+            ViewBag.Category = _context.Categories.FirstOrDefault();
             var userId = User.Identity.Name;
-            var expense = _context.Expenses.Where(e => e.UserId == userId).ToList();
+            var expense = _context.Expenses.Where(e => e.UserId == userId).Include(e => e.Category).ToList();
             return View(expense);
         }
 
@@ -26,6 +27,7 @@ namespace ExpenseTrackerv1.Controllers
         public IActionResult AddExpense()
         {
             ViewBag.Action = "Add";
+            ViewBag.Categories = _context.Categories.ToList();
             var model = new Expense
             {
                 ExpenseDate = DateTime.Today
@@ -37,6 +39,7 @@ namespace ExpenseTrackerv1.Controllers
         public IActionResult EditExpense(int id)
         {
             ViewBag.Action = "Update";
+            ViewBag.Categories = _context.Categories.ToList();
             var expense = _context.Expenses.Find(id);
             return View("AddExpense", expense);
         }
@@ -46,10 +49,13 @@ namespace ExpenseTrackerv1.Controllers
         {
             try
             {
+                ViewBag.Categories = _context.Categories.ToList();
+                var userId = User.Identity.Name;
+                expense.UserId = userId;
+
                 if (ModelState.IsValid)
                 {
-                    var userId = User.Identity.Name;
-                    expense.UserId = userId;
+
                     if (expense.ExpenseId == 0)
                     {
                         _context.Expenses.Add(expense);

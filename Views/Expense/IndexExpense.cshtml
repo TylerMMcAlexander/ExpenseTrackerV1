@@ -17,7 +17,7 @@
         {
          <tr>
              <td>@expense.Amount.ToString("C2")</td>
-             <td>@expense.Category</td>
+             <td>@expense.Category.CategoryName</td>
                 <td>@expense.ExpenseDate.ToShortDateString()</td>
                 <td>
                     <a asp-action="EditExpense" asp-controller="Expense" asp-route-id="@expense.ExpenseId">Edit Expense</a>

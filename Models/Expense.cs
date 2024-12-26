@@ -14,9 +14,13 @@ namespace ExpenseTrackerv1.Models
         [Required(ErrorMessage = "Please enter an expense date.")]
         public DateTime ExpenseDate { get; set; }
 
-        [Required(ErrorMessage = "Please enter a category.")]
-        public string Category { get; set; } = string.Empty;
-
         public string UserId { get; set; } = string.Empty;
+
+        
+
+        public Category? Category { get; set; }
+
+        [Required(ErrorMessage = "Please select a category.")]
+        public int CategoryId { get; set; }
     }
 }

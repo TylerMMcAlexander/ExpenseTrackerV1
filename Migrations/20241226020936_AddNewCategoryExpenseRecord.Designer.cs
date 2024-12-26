@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseTrackerv1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241224223748_AdjustIntAmountToDouble")]
-    partial class AdjustIntAmountToDouble
+    [Migration("20241226020936_AddNewCategoryExpenseRecord")]
+    partial class AddNewCategoryExpenseRecord
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,40 @@ namespace ExpenseTrackerv1.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("ExpenseTrackerv1.Models.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"), 1L, 1);
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Transportation"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Food"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Entertainment"
+                        });
+                });
 
             modelBuilder.Entity("ExpenseTrackerv1.Models.Expense", b =>
                 {
@@ -35,16 +69,31 @@ namespace ExpenseTrackerv1.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ExpenseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("ExpenseId");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Expenses");
+
+                    b.HasData(
+                        new
+                        {
+                            ExpenseId = 1,
+                            Amount = 12.5,
+                            CategoryId = 1,
+                            ExpenseDate = new DateTime(2024, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UserId = "admin@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -247,6 +296,17 @@ namespace ExpenseTrackerv1.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("ExpenseTrackerv1.Models.Expense", b =>
+                {
+                    b.HasOne("ExpenseTrackerv1.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
