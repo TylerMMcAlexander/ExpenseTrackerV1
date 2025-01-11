@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ExpenseTrackerv1.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241226020242_FreshInit")]
-    partial class FreshInit
+    [Migration("20250111042731_FreshDb")]
+    partial class FreshDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,6 +75,9 @@ namespace ExpenseTrackerv1.Migrations
                     b.Property<DateTime>("ExpenseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsRecurring")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -84,6 +87,17 @@ namespace ExpenseTrackerv1.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Expenses");
+
+                    b.HasData(
+                        new
+                        {
+                            ExpenseId = 1,
+                            Amount = 12.5,
+                            CategoryId = 1,
+                            ExpenseDate = new DateTime(2024, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRecurring = true,
+                            UserId = "admin@gmail.com"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

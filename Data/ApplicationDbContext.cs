@@ -32,7 +32,8 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
                     Amount = 12.50,
                     ExpenseDate = new DateTime(2024, 12, 24),
                     UserId = "admin@gmail.com",
-                    CategoryId = 1
+                    CategoryId = 1,
+                    IsRecurring = true
                 });
         }
     }

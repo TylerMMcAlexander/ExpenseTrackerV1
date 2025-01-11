@@ -16,6 +16,7 @@ namespace ExpenseTrackerv1.Models
 
         public string UserId { get; set; } = string.Empty;
 
+        public bool IsRecurring { get; set; }
         
 
         public Category? Category { get; set; }

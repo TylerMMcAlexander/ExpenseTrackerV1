@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ExpenseTrackerv1.Migrations
 {
-    public partial class FreshInit : Migration
+    public partial class FreshDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -176,6 +176,7 @@ namespace ExpenseTrackerv1.Migrations
                     Amount = table.Column<double>(type: "float", nullable: false),
                     ExpenseDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsRecurring = table.Column<bool>(type: "bit", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -203,6 +204,11 @@ namespace ExpenseTrackerv1.Migrations
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
                 values: new object[] { 3, "Entertainment" });
+
+            migrationBuilder.InsertData(
+                table: "Expenses",
+                columns: new[] { "ExpenseId", "Amount", "CategoryId", "ExpenseDate", "IsRecurring", "UserId" },
+                values: new object[] { 1, 12.5, 1, new DateTime(2024, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), true, "admin@gmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

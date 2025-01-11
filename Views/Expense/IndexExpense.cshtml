@@ -3,12 +3,23 @@
 
 
 <a asp-action="AddExpense" asp-controller="Expense" class="btn btn-primary">Add Expense</a>
+<form method="get" asp-action="IndexExpense" asp-controller="Expense">
+    <div class="form-row">
+        <div class="form-group col-md-2">
+            <label for="isRecurringFilter">Recurring</label>
+            <input type="checkbox" name="isRecurringFilter" id="isRecurringFilter"
+                value="true" @(ViewData["isRecurringFilter"] as bool? == true ? "checked" : "") />
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Apply Filters</button>
+</form>
 <table class="table-striped">
     <thead>
         <tr>
             <th>Expense Amount</th>
             <th>Expense Category</th>
             <th>Expense Date</th>
+            <th>Is Recurring</th>
             <th></th>
         </tr>
     </thead>
@@ -18,7 +29,10 @@
          <tr>
              <td>@expense.Amount.ToString("C2")</td>
              <td>@expense.Category.CategoryName</td>
-                <td>@expense.ExpenseDate.ToShortDateString()</td>
+             <td>@expense.ExpenseDate.ToShortDateString()</td>
+             <td>
+                 <input type="checkbox" @(expense.IsRecurring ? "checked" : "") disabled />
+             </td>
                 <td>
                     <a asp-action="EditExpense" asp-controller="Expense" asp-route-id="@expense.ExpenseId">Edit Expense</a>
                     <a asp-action="DeleteExpense" asp-controller="Expense" asp-route-id="@expense.ExpenseId">Delete Expense</a>

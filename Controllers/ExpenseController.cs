@@ -15,12 +15,15 @@ namespace ExpenseTrackerv1.Controllers
         {
             _context = context;
         }
-        public IActionResult IndexExpense()
+        public async Task<IActionResult> IndexExpense(bool? isRecurringFilter)
         {
             ViewBag.Category = _context.Categories.FirstOrDefault();
             var userId = User.Identity.Name;
-            var expense = _context.Expenses.Where(e => e.UserId == userId).Include(e => e.Category).ToList();
-            return View(expense);
+            var expense = _context.Expenses.Where(e => e.UserId == userId).Include(e => e.Category).AsQueryable();
+            var filteredExpenses = await ExpenseFilter.FilterExpenseAsync(
+                expense, isRecurringFilter);
+            ViewData["IsRecurringFilter"] = isRecurringFilter;
+            return View(filteredExpenses);
         }
 
         [HttpGet]

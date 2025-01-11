@@ -73,6 +73,9 @@ namespace ExpenseTrackerv1.Migrations
                     b.Property<DateTime>("ExpenseDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsRecurring")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -90,6 +93,7 @@ namespace ExpenseTrackerv1.Migrations
                             Amount = 12.5,
                             CategoryId = 1,
                             ExpenseDate = new DateTime(2024, 12, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            IsRecurring = true,
                             UserId = "admin@gmail.com"
                         });
                 });
