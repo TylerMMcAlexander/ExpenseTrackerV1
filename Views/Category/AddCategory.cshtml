@@ -1,0 +1,15 @@
+﻿@model Category
+
+<h2>@ViewBag.Action A Category</h2>
+
+<form asp-action="AddCategory" method="post">
+    <input type="hidden" asp-for="CategoryId" />
+    <div>
+        <label asp-for="CategoryName" class="form-label">Category Name</label>
+        <input asp-for="CategoryName" class="form-control" />
+        <span asp-validation-for="CategoryName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
+    <a asp-action="Home" asp-controller="Home" class="btn btn-primary">Cancel</a>
+</form>
