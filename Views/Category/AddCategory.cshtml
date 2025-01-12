@@ -10,6 +10,12 @@
         <span asp-validation-for="CategoryName" class="text-danger"></span>
     </div>
 
+    <div>
+        <label asp-for="MaxBudget" class="form-label">Max Budget</label>
+        <input asp-for="MaxBudget" class="form-control" />
+        <span asp-validation-for="MaxBudget" class="text-danger"></span>
+    </div>
+
     <button type="submit" class="btn btn-primary">@ViewBag.Action</button>
     <a asp-action="Home" asp-controller="Home" class="btn btn-primary">Cancel</a>
 </form>

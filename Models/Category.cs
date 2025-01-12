@@ -11,5 +11,8 @@ namespace ExpenseTrackerv1.Models
 
         [Required(ErrorMessage = "Please enter a category name.")]
         public string? CategoryName { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please enter a max budget")]
+        public int MaxBudget { get; set; }
     }
 }

@@ -20,9 +20,9 @@ public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             base.OnModelCreating(builder);
 
             builder.Entity<Category>().HasData(
-                new Category { CategoryId = 1, CategoryName = "Transportation" },
-                new Category { CategoryId = 2, CategoryName = "Food" },
-                new Category { CategoryId = 3, CategoryName = "Entertainment" }
+                new Category { CategoryId = 1, CategoryName = "Transportation", MaxBudget = 50 },
+                new Category { CategoryId = 2, CategoryName = "Food", MaxBudget = 200},
+                new Category { CategoryId = 3, CategoryName = "Entertainment", MaxBudget = 100}
             );
 
             builder.Entity<Expense>().HasData(

@@ -11,15 +11,32 @@
                 value="true" @(ViewData["isRecurringFilter"] as bool? == true ? "checked" : "") />
         </div>
     </div>
+    <input type="hidden" name="sortOrder" value="@ViewData["SortOrder"]" />
     <button type="submit" class="btn btn-primary">Apply Filters</button>
 </form>
 <table class="table-striped">
     <thead>
         <tr>
-            <th>Expense Amount</th>
-            <th>Expense Category</th>
-            <th>Expense Date</th>
+            <th>Expense Amount
+                <a asp-action="IndexExpense" asp-route-sortOrder="amount_asc"
+                   asp-route-isRecurringFilter="@ViewData["IsRecurringFilter"]">&#x2191;</a>
+                <a asp-action="IndexExpense" asp-route-sortOrder="amount_desc"
+                   asp-route-isRecurringFilter="@ViewData["IsRecurringFilter"]">&#x2193;</a>
+            </th>
+            <th>Expense Category
+                <a asp-action="IndexExpense" asp-route-sortOrder="category_asc"
+                   asp-route-isRecurringFilter="@ViewData["IsRecurringFilter"]">&#x2191;</a>
+                <a asp-action="IndexExpense" asp-route-sortOrder="category_desc"
+                   asp-route-isRecurringFilter="@ViewData["IsRecurringFilter"]">&#x2193;</a>
+            </th>
+            <th>Expense Date
+                <a asp-action="IndexExpense" asp-route-sortOrder="date_asc"
+                   asp-route-isRecurringFilter="@ViewData["IsRecurringFilter"]">&#x2191;</a>
+                <a asp-action="IndexExpense" asp-route-sortOrder="date_desc"
+                   asp-route-isRecurringFilter="@ViewData["IsRecurringFilter"]">&#x2193;</a>
+            </th>
             <th>Is Recurring</th>
+            <th>Max Budget</th>
             <th></th>
         </tr>
     </thead>
@@ -33,6 +50,7 @@
              <td>
                  <input type="checkbox" @(expense.IsRecurring ? "checked" : "") disabled />
              </td>
+             <td>@expense.Category.MaxBudget.ToString("C2")</td>
                 <td>
                     <a asp-action="EditExpense" asp-controller="Expense" asp-route-id="@expense.ExpenseId">Edit Expense</a>
                     <a asp-action="DeleteExpense" asp-controller="Expense" asp-route-id="@expense.ExpenseId">Delete Expense</a>

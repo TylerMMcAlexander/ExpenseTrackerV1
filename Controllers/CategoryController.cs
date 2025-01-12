@@ -24,6 +24,13 @@ namespace ExpenseTrackerv1.Controllers
             var model = new Category { };
             return View(model);
         }
+        [HttpGet]
+        public IActionResult EditCategory(int id)
+        {
+            ViewBag.Action = "Update";
+            var category = _context.Categories.Find(id);
+            return View("AddCategory", category);
+        }
         [HttpPost]
         public IActionResult AddCategory(Category category)
         {

@@ -12,6 +12,7 @@
         <tr>
             <th>Category Id</th>
             <th>Category Name</th>
+            <th>Max Budget</th>
             <th></th>
         </tr>
     </thead>
@@ -21,6 +22,7 @@
             <tr>
                 <td>@category.CategoryId</td>
                 <td>@category.CategoryName</td>
+                <td>@category.MaxBudget</td>
                 <td>
                     <a asp-action="EditCategory" asp-controller="Category" asp-route-id="@category.CategoryId">Edit Category</a>
                     <a asp-action="DeleteCategory" asp-controller="Category" asp-route-id="@category.CategoryId">Delete Category</a>
