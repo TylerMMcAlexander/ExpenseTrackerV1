@@ -21,8 +21,17 @@ namespace ExpenseTrackerv1.Controllers
             ViewBag.Category = _context.Categories.FirstOrDefault();
             var userId = User.Identity.Name;
             var expense = _context.Expenses.Where(e => e.UserId == userId).Include(e => e.Category).AsQueryable();
+
             expense = ExpenseFilter.FilterExpense(expense, isRecurringFilter, startDate, endDate);
             expense = ExpenseFilter.SortExpense(expense, sortOrder);
+            var expenseByCategory = await expense
+                                        .GroupBy(e => e.Category.CategoryName)
+                                        .Select(g => new
+                                        {
+                                            CategoryName = g.Key,
+                                            TotalAmount = g.Sum(e => e.Amount)
+                                        }).ToListAsync();
+            ViewData["ExpenseByCategory"] = expenseByCategory;
             var sortedAndFilteredExpenses = await expense.ToListAsync();
             ViewData["IsRecurringFilter"] = isRecurringFilter;
             ViewData["SortOrder"] = sortOrder;
