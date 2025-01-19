@@ -71,5 +71,20 @@ namespace ExpenseTrackerv1.Controllers
                 return View("Error", new { errorMessage = ex.Message });  // Show error view with exception details
             }
         }
+        [HttpGet]
+        public IActionResult DeleteCategory(int id)
+        {
+            var category = _context.Categories.Find(id);
+            return View(category);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteCategory(Category category)
+        {
+            _context.Categories.Remove(category);
+            _context.SaveChanges();
+            return RedirectToAction("IndexCategory", "Category");
+
+        }
     }
 }

@@ -1,0 +1,11 @@
+﻿@model Category
+
+<h1>Delete Category</h1>
+
+<form asp-action="DeleteCategory" method="post">
+    <input type="hidden" asp-for="CategoryId" />
+    <h3>Category Name: @Model.CategoryName</h3>
+    <h3>Max Budget: @Model.MaxBudget</h3>
+    <button type="submit" class="btn btn-primary">Delete</button>
+    <a asp-action="IndexCategory" asp-asp-controller="Category" class="btn btn-primary">Cancel</a>
+</form>

@@ -15,16 +15,19 @@ namespace ExpenseTrackerv1.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> IndexExpense(bool? isRecurringFilter, string? sortOrder)
+        public async Task<IActionResult> IndexExpense(bool? isRecurringFilter, string? sortOrder, 
+                                                        DateTime? startDate, DateTime? endDate)
         {
             ViewBag.Category = _context.Categories.FirstOrDefault();
             var userId = User.Identity.Name;
             var expense = _context.Expenses.Where(e => e.UserId == userId).Include(e => e.Category).AsQueryable();
-            expense = ExpenseFilter.FilterExpense(expense, isRecurringFilter);
+            expense = ExpenseFilter.FilterExpense(expense, isRecurringFilter, startDate, endDate);
             expense = ExpenseFilter.SortExpense(expense, sortOrder);
             var sortedAndFilteredExpenses = await expense.ToListAsync();
             ViewData["IsRecurringFilter"] = isRecurringFilter;
             ViewData["SortOrder"] = sortOrder;
+            ViewData["startDate"] = startDate?.ToString("yyyy-MM-dd");
+            ViewData["endDate"] = endDate?.ToString("yyyy-MM-dd");
             return View(sortedAndFilteredExpenses);
         }
 
@@ -70,6 +73,18 @@ namespace ExpenseTrackerv1.Controllers
                         _context.Expenses.Update(expense);
                     }
                     _context.SaveChanges();
+
+                    var totalExpenses = _context.Expenses
+                                        .Where(e => e.CategoryId == expense.CategoryId)
+                                        .Sum(e => e.Amount);
+
+                    if(totalExpenses + expense.Amount > expense.Category.MaxBudget)
+                    {
+                        TempData["Notification"] = $"Caution: This expense will exceed the max budget for category '{expense.Category.CategoryName}." +
+                            $" Total:'{totalExpenses + expense.Amount}, Max: {expense.Category.MaxBudget}'";
+                    }
+
+
                     return RedirectToAction("IndexExpense", "Expense");
                 }
                 else

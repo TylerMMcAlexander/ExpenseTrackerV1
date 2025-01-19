@@ -5,15 +5,25 @@ namespace ExpenseTrackerv1.Models
     public static class ExpenseFilter
     {
 
-        public static IQueryable<Expense> FilterExpense(IQueryable<Expense> expenses, bool? isRecurringFilter)
+        public static IQueryable<Expense> FilterExpense(IQueryable<Expense> expenses, bool? isRecurringFilter, 
+                                                            DateTime? startDate, DateTime? endDate)
         {
             if (isRecurringFilter.HasValue)
             {
                 expenses = expenses.Where(e => e.IsRecurring == isRecurringFilter.Value);
             }
+
+            if(startDate.HasValue)
+            {
+                expenses = expenses.Where(e => e.ExpenseDate >= startDate.Value);
+            }
+
+            if(endDate.HasValue)
+            {
+                expenses = expenses.Where(e => e.ExpenseDate <= endDate.Value);
+            }
             return expenses;
         }
-
 
         public static IQueryable<Expense> SortExpense(IQueryable<Expense> expenses, string? sortOrder)
         {
